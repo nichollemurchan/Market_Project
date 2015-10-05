@@ -96,7 +96,7 @@ public class Strat3 {
 	            			
 	            			if(close > open[1]){
 	            				
-	            				PreparedStatement st = cn.prepareStatement("insert into Trades3(Author, CompanyName, AskPrice,"
+	            				PreparedStatement st = cn.prepareStatement("insert into Trades1(Author, CompanyName, AskPrice,"
 	            					+ " BidPrice, Position, size, ProfitPercent, shares, DollarProfit)"
 		    						+ "values(?,?,?,?,?,?,?,?)");
 	            				st.setString(1, "Price Break");
@@ -130,7 +130,7 @@ public class Strat3 {
 	            			
 	            			if(close < open[1]){
 	            			
-	            				PreparedStatement st = cn.prepareStatement("insert into Trades3(Author, CompanyName, AskPrice, "
+	            				PreparedStatement st = cn.prepareStatement("insert into Trades1(Author, CompanyName, AskPrice, "
 	            						+ "BidPrice, Position, size, ProfitPercent, shares, DollarProfit)"
 	            						+ "values(?,?,?,?,?,?,?,?)");
 	            					st.setString(1, "Price Break");

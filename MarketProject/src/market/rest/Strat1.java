@@ -102,9 +102,9 @@ public class Strat1 {
             			if(diffList.get(0)>0
             					&& diffList.get(1)<0){
             				
-            				PreparedStatement st = cn.prepareStatement("insert into Trades(Author, CompanyName, AskPrice,"
+            				PreparedStatement st = cn.prepareStatement("insert into Trades1(Author, CompanyName, AskPrice,"
             					+ " BidPrice, Position, size, ProfitPercent, shares, DollarProfit)"
-	    						+ "values(?,?,?,?,?,?,?,?)");
+	    						+ "values(?,?,?,?,?,?,?,?,?)");
             				st.setString(1, "S MovingA");
 	    					st.setString(2, fields[0]);
 	    					st.setString(3, fields[1]);
@@ -132,7 +132,7 @@ public class Strat1 {
             		if(shares != 0){
             			if(diffList.get(0)<0
             					&& diffList.get(1)>0){
-            				PreparedStatement st = cn.prepareStatement("insert into Trades(Author, CompanyName, AskPrice, "
+            				PreparedStatement st = cn.prepareStatement("insert into Trades1(Author, CompanyName, AskPrice, "
             						+ "BidPrice, Position, size, ProfitPercent, shares, DollarProfit)"
             						+ "values(?,?,?,?,?,?,?,?,?)");
             					st.setString(1, "S MovingA");
@@ -166,7 +166,7 @@ public class Strat1 {
 		    						//	Integer.parseInt(fields[3]));
 	    						
 	    						if(shares == 0 && InitialTransaction != 0){
-	    	            			if( Math.sqrt(MoneyTotal*MoneyTotal)>=(0.01*InitialTransaction)){
+	    	            			if( Math.abs(MoneyTotal) >= (0.01*InitialTransaction)){
 	    	            				System.out.println("Standard Moving Average Strategy exiting");
 	    	            				System.out.println("Profit: "+100*(MoneyTotal/TrueInitialTransaction)+"%");
 	    	            				System.out.println("Number of transactions: "+Transactions);

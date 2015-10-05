@@ -15,6 +15,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+
 import org.jboss.logging.*;
 
 @Path("/Strat2")
@@ -43,9 +44,16 @@ public class Strat2 {
 		double SEMA = 0;
 		double LEMA = 0;
 		double InitialTransaction = 0;
-		double TrueInitialTransaction = 0;
+		//double TrueInitialTransaction = 0;
 		double MoneyTotal = 0;
 		List<Double> diffList = new ArrayList<Double>();
+		
+		double shortTotal = 0;
+		double shortAve = 0;
+		double longTotal = 0;
+		double longAve = 0;
+		List<Double> shortList = new ArrayList<Double>();
+		List<Double> longList = new ArrayList<Double>();
 	
 		while(true){
 			count++;
@@ -68,27 +76,51 @@ public class Strat2 {
             while ((inputLine = in.readLine()) != null){
             	String[] fields = inputLine.split(",");
             	
-            	if(count==1){
-            		SEMA = Double.parseDouble(fields[1]);
-            		LEMA = Double.parseDouble(fields[1]);
-            	}else{
-            		SEMA = Double.parseDouble(fields[1])*(2/(1+60)) + SEMA*(1-(2/(1+60)));
-            		LEMA = Double.parseDouble(fields[1])*(2/(1+200)) + LEMA*(1-(2/(1+200)));
+            	if(shortAve == 0 || longAve == 0){
+            		shortList.add(Double.parseDouble(fields[1])); 
+            		if(count > 60){
+            			shortList.remove(0);
+            			shortTotal = 0;
+            			for(Double d: shortList){
+            				shortTotal += d;
+            			}
+            			shortAve = shortTotal/60;
+            		}
+			
+            		longList.add(Double.parseDouble(fields[1])); 
+            		if(count > 200){
+            			longList.remove(0);
+            			longTotal = 0;
+            			for(Double d: longList){
+            				longTotal += d;
+            			}
+            			longAve = longTotal/200;
+            		}
+            	}
+            		
+            	if(shortAve != 0 && longAve != 0){
+            		if(SEMA == 0){
+            			SEMA = shortAve;}
+            		if(LEMA == 0){
+            			LEMA = longAve;}
+            	}
+            	
+            	if(SEMA != 0 && LEMA != 0){
+            		SEMA = (Double.parseDouble(fields[1])-SEMA)*(2.0/(1+5))+SEMA;
+            		LEMA = (Double.parseDouble(fields[1])-LEMA)*(2.0/(1+30))+LEMA;
             	}
             	
             	diffList.add(LEMA-SEMA);
             	
             	if(diffList.size()==2){
             		
-            		System.out.println(diffList.get(0));
-            		
             		if(shares ==0){
             			if(diffList.get(0)>0
             					&& diffList.get(1)<0){
             				
-            				PreparedStatement st = cn.prepareStatement("insert into Trades(Author, CompanyName, AskPrice,"
+            				PreparedStatement st = cn.prepareStatement("insert into Trades1(Author, CompanyName, AskPrice,"
             					+ " BidPrice, Position, size, ProfitPercent, shares, DollarProfit)"
-	    						+ "values(?,?,?,?,?,?,?,?)");
+	    						+ "values(?,?,?,?,?,?,?,?,?)");
             				st.setString(1, "E MovingA");
 	    					st.setString(2, fields[0]);
 	    					st.setString(3, fields[1]);
@@ -103,9 +135,9 @@ public class Strat2 {
 	    					shares += Integer.parseInt(fields[4]);
 	    					MoneyTotal -= Double.parseDouble(fields[2])*Integer.parseInt(fields[4]); 
 	    					InitialTransaction = -MoneyTotal;
-	    					if(Transactions == 1){
-	    						TrueInitialTransaction = -MoneyTotal;
-	    					}
+	    					//if(Transactions == 1){
+	    						//TrueInitialTransaction = -MoneyTotal;
+	    					//}
 	    					st.setString(8, Integer.toString(shares));
 	    					st.setString(9, Double.toString(MoneyTotal));
 	    					st.executeUpdate();
@@ -117,9 +149,9 @@ public class Strat2 {
             			if(diffList.get(0)<0
             					&& diffList.get(1)>0){
             				
-            				PreparedStatement st = cn.prepareStatement("insert into Trades(Author, CompanyName, AskPrice, "
+            				PreparedStatement st = cn.prepareStatement("insert into Trades1(Author, CompanyName, AskPrice, "
             						+ "BidPrice, Position, size, ProfitPercent, shares, DollarProfit)"
-            						+ "values(?,?,?,?,?,?,?,?)");
+            						+ "values(?,?,?,?,?,?,?,?,?)");
             					st.setString(1, "E MovingA");
 	    						st.setString(2, fields[0]);
 	    						st.setString(3, fields[1]);
@@ -152,7 +184,7 @@ public class Strat2 {
 	    						if(shares == 0 && InitialTransaction != 0){
 	    	            			if( Math.sqrt(MoneyTotal*MoneyTotal)>=(0.01*InitialTransaction)){
 	    	            				System.out.println("Exponential Moving Average Strategy exiting");
-	    	            				System.out.println("Profit: "+100*(MoneyTotal/TrueInitialTransaction)+"%");
+	    	            				System.out.println("Profit: "+100*(MoneyTotal/InitialTransaction)+"%");
 	    	            				System.out.println("Number of transactions: "+Transactions);
 	    	            				return;
 	    	            			}
