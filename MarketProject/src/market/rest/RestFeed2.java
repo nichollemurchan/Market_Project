@@ -19,7 +19,7 @@ public class RestFeed2 {
 	@GET
 	@Produces("text/html")
 	public String getData(){
-		String result="<table border=1><tr><td>StockS</td><td>Ask price</td><td>Bid price</td><td>Change</td></tr>";
+		String result="<table class='table table-striped'<thead><tr><th>StockS</th><th>Ask price</th><th>Bid price</th><th>Change</th></tr></thead>";
 		try{
 		String[] stocks = {"IXIC", "MSFT", "CSCO", "AAPL","GOOG","QCOM","ORCL","EMC", "TXN", "YHOO"};
 		StringBuilder url = 
@@ -45,7 +45,7 @@ public class RestFeed2 {
         	String[] fields = inputLine.split(",");
         	result += "<tr><td>"+fields[0]+"</td><td>"+fields[1]+"</td><td>"+fields[2]+"</td><td>"+fields[3]+"</td></tr>";
         }  
-        result += "</table>";
+        result += "<tr><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr></table>";
        // Arrays.fill(fields, null);
 		
 		}catch(IOException i){
