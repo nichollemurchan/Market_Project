@@ -15,23 +15,24 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+
 import org.jboss.logging.*;
 
-@Path("/Strat1")
-public class Strat1 {
+@Path("/Strat4")
+public class Strat4 {
 
 	@GET
 	@Produces("text/html")
 	public void stratagy1(@QueryParam("str") String str) {
 		
 		try{
-		
-		System.out.println("Standard Moving Average Strategy Activated");
+			
+			System.out.println("Bollinger Bands Strategy Activated");
 		
 		Class.forName("com.mysql.jdbc.Driver");
 		Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/ad3db", "root", "rU1DDbaTWTSI");
-		/*PreparedStatement in1 = cn.prepareStatement(" drop table Trades2");
-		PreparedStatement in2 = cn.prepareStatement("create table Trades2(id int AUTO_INCREMENT PRIMARY KEY, "
+		/*PreparedStatement in1 = cn.prepareStatement(" drop table Trades1");
+		PreparedStatement in2 = cn.prepareStatement("create table Trades1(id int AUTO_INCREMENT PRIMARY KEY, "
 				+ "Author nvarchar(15), DateCreated timestamp, CompanyName nvarchar(10), AskPrice double, "
 				+ "BidPrice double, Position nvarchar(6), size int, ProfitPercent double, shares int, DollarProfit double);");
 		in1.executeUpdate();
@@ -40,16 +41,16 @@ public class Strat1 {
 		int count = 0;
 		int Transactions = 0;
 		int shares = 0;
-		double shortTotal = 0;
-		double shortAve = 0;
+		double SDTotal = 0;
+		double SD = 0;
 		double longTotal = 0;
 		double longAve = 0;
 		double InitialTransaction = 0;
 		double MoneyTotal = 0;
 		double profit = 0;
-		List<Double> shortList = new ArrayList<Double>();
+		List<Double> SDList = new ArrayList<Double>();
 		List<Double> longList = new ArrayList<Double>();
-		List<Double> diffList = new ArrayList<Double>();
+		
 
 		while(true){
 			count++;
@@ -75,18 +76,8 @@ public class Strat1 {
             	if(shares == 0){
             		profit =0;
             	}
-        	
-            	shortList.add((Double.parseDouble(fields[1])+Double.parseDouble(fields[2]))/2.0); 
-            	if(count > 60){
-            		shortList.remove(0);
-            		shortTotal = 0;
-            		for(Double d: shortList){
-					shortTotal += d;
-            		}
-            		shortAve = shortTotal/60;
-            	}
 			
-            	longList.add((Double.parseDouble(fields[1])+Double.parseDouble(fields[2]))/2.0);
+            	longList.add((Double.parseDouble(fields[1])+Double.parseDouble(fields[2]))/2.0); 
             	if(count > 200){
             		longList.remove(0);
             		longTotal = 0;
@@ -96,20 +87,24 @@ public class Strat1 {
             		longAve = longTotal/200;
             	}
             	
-            	if(longAve != 0){
-            	diffList.add(longAve-shortAve);
+            	if(count>200){
+            		SDList.add(Math.abs(((Double.parseDouble(fields[1])+Double.parseDouble(fields[2]))/2.0)-longAve));
+            		if(count > 400){
+            			SDList.remove(0);
+            			SDTotal = 0;
+            			for(Double d: SDList){
+            				SDTotal += d;}
+            			SD = SDTotal/200;
+            		}
             	}
-            	
-            	if(diffList.size()==2){
-            		
-            		if(shares ==0){
-            			if(diffList.get(0)>0
-            					&& diffList.get(1)<0){
+            		if(shares == 0){
+            			profit = 0;
+            			if((Double.parseDouble(fields[1])+Double.parseDouble(fields[2]))/2.0 < (longAve-SD)){
             				
             				PreparedStatement st = cn.prepareStatement("insert into Trades(Author, CompanyName, AskPrice,"
             					+ " BidPrice, Position, size, ProfitPercent, shares, DollarProfit)"
 	    						+ "values(?,?,?,?,?,?,?,?,?)");
-            				st.setString(1, "SMovingA");
+            				st.setString(1, "BollingerB");
 	    					st.setString(2, fields[0]);
 	    					st.setString(3, fields[1]);
 	    					st.setString(4, fields[2]);
@@ -121,9 +116,10 @@ public class Strat1 {
 	    							//Integer.parseInt(fields[4]));
 	    					Transactions++;
 	    					shares += Integer.parseInt(fields[3]);
-	    					profit -= Double.parseDouble(fields[1])*Integer.parseInt(fields[3]);
-	    					MoneyTotal -=  Double.parseDouble(fields[1])*Integer.parseInt(fields[3]);
+	    					profit -= Double.parseDouble(fields[1])*Integer.parseInt(fields[3]); 
+	    					MoneyTotal -= Double.parseDouble(fields[1])*Integer.parseInt(fields[3]); 
 	    					InitialTransaction = -profit;
+	    					
 	    					st.setString(8, Integer.toString(shares));
 	    					st.setString(9, Double.toString(MoneyTotal));
 	    					st.executeUpdate();
@@ -132,12 +128,13 @@ public class Strat1 {
             		}
             		
             		if(shares != 0){
-            			if(diffList.get(0)<0
-            					&& diffList.get(1)>0){
-            				PreparedStatement st = cn.prepareStatement("insert into Trades(Author, CompanyName, AskPrice, "
+            			
+            			if((Double.parseDouble(fields[1])+Double.parseDouble(fields[2]))/2.0 > (longAve-SD)){
+            				
+            			PreparedStatement st = cn.prepareStatement("insert into Trades(Author, CompanyName, AskPrice, "
             						+ "BidPrice, Position, size, ProfitPercent, shares, DollarProfit)"
             						+ "values(?,?,?,?,?,?,?,?,?)");
-            					st.setString(1, "SMovingA");
+            					st.setString(1, "BollingerB");
 	    						st.setString(2, fields[0]);
 	    						st.setString(3, fields[1]);
 	    						st.setString(4, fields[2]);
@@ -171,7 +168,7 @@ public class Strat1 {
 	    						
 	    						if(shares == 0 && InitialTransaction != 0){
 	    	            			if( Math.abs(profit) >= (0.01*InitialTransaction)){
-	    	            				System.out.println("Standard Moving Average Strategy exiting");
+	    	            				System.out.println("Bollinger Bands Strategy exiting");
 	    	            				System.out.println("Profit: "+100*(profit/InitialTransaction)+"%");
 	    	            				System.out.println("Number of transactions: "+Transactions);
 	    	            				return;
@@ -179,11 +176,11 @@ public class Strat1 {
 	    	            		}
             				}
             			}
-            		diffList.remove(0);
+            		
             		}
             		
             	}
-        	} 
+        	
 		}catch(IOException i){
 			Logger log = Logger.getLogger(this.getClass());
 			log.error("ERROR: " + i.getMessage());

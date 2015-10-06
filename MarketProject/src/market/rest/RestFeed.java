@@ -20,7 +20,7 @@ public class RestFeed {
 	@GET
 	@Produces("text/html")
 	public String getData(@QueryParam("str") String str) {
-		 String result = "<table border=1><tr><td>Stock</td><td>Ask price</td><td>Bid price</td><td>Change</td></tr>";
+		 String result = "<table class='table table-striped'<thead><tr><th>StockS</th><th>Ask price</th><th>Bid price</th><th>Change</th></tr></thead>";
 		try{
 		List<String> items = Arrays.asList(str.split("\\s*,\\s*"));
 		StringBuilder url = 

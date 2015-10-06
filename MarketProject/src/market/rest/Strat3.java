@@ -27,7 +27,7 @@ public class Strat3 {
 		System.out.println("Price Breakout Strategy Activated");
 		
 		Class.forName("com.mysql.jdbc.Driver");
-		Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/montestdb", "root", "password");
+		Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/ad3db", "root", "rU1DDbaTWTSI");
 		/*PreparedStatement in1 = cn.prepareStatement(" drop table Trades3");
 		PreparedStatement in2 = cn.prepareStatement("create table Trades1(id int AUTO_INCREMENT PRIMARY KEY, "
 				+ "Author nvarchar(15), DateCreated timestamp, CompanyName nvarchar(10), AskPrice double, "
@@ -45,8 +45,8 @@ public class Strat3 {
 		int Transactions = 0;
 		int shares = 0;
 		double InitialTransaction = 0;
-		double TrueInitialTransaction = 0;
 		double MoneyTotal = 0;
+		double profit = 0;
 	
 			while(true){
 				StringBuilder url = 
@@ -67,6 +67,10 @@ public class Strat3 {
 	            while ((inputLine = in.readLine()) != null){
 	            	
 	            	String[] fields = inputLine.split(",");
+	            	
+	            	if(shares == 0){
+	            		profit =0;
+	            	}
 	            	
 	            	double Dfield = Double.parseDouble(fields[1]);
 	            	
@@ -96,28 +100,25 @@ public class Strat3 {
 	            			
 	            			if(close > open[1]){
 	            				
-	            				PreparedStatement st = cn.prepareStatement("insert into Trades1(Author, CompanyName, AskPrice,"
+	            				PreparedStatement st = cn.prepareStatement("insert into Trades(Author, CompanyName, AskPrice,"
 	            					+ " BidPrice, Position, size, ProfitPercent, shares, DollarProfit)"
-		    						+ "values(?,?,?,?,?,?,?,?)");
-	            				st.setString(1, "Price Break");
+		    						+ "values(?,?,?,?,?,?,?,?,?)");
+	            				st.setString(1, "PriceBreak");
 		    					st.setString(2, fields[0]);
 		    					st.setString(3, fields[1]);
 		    					st.setString(4, fields[2]);
 		    					st.setString(5,"Long");
-		    					st.setString(6, fields[4]);
+		    					st.setString(6, fields[3]);
 		    					st.setString(7,"0.0");
 		    					
 		    					//OrderManager.OrderResult bought = OrderManager.getInstance().buyOrder(fields[0], Double.parseDouble(fields[2]), 
 		    							//Integer.parseInt(fields[4]));
 		    					
 		    					Transactions++;
-		    					shares += Integer.parseInt(fields[4]);
-		    					MoneyTotal -= Double.parseDouble(fields[2])*Integer.parseInt(fields[4]); 
-		    					InitialTransaction = -MoneyTotal;
-		    					
-		    					if(Transactions == 1){
-		    						TrueInitialTransaction = -MoneyTotal;
-		    					}
+		    					shares += Integer.parseInt(fields[3]);
+		    					profit -= Double.parseDouble(fields[1])*Integer.parseInt(fields[3]); 
+		    					MoneyTotal -= Double.parseDouble(fields[1])*Integer.parseInt(fields[3]);
+		    					InitialTransaction = -profit;
 		    					
 		    					st.setString(8, Integer.toString(shares));
 		    					st.setString(9, Double.toString(MoneyTotal));
@@ -130,10 +131,10 @@ public class Strat3 {
 	            			
 	            			if(close < open[1]){
 	            			
-	            				PreparedStatement st = cn.prepareStatement("insert into Trades1(Author, CompanyName, AskPrice, "
+	            				PreparedStatement st = cn.prepareStatement("insert into Trades(Author, CompanyName, AskPrice, "
 	            						+ "BidPrice, Position, size, ProfitPercent, shares, DollarProfit)"
-	            						+ "values(?,?,?,?,?,?,?,?)");
-	            					st.setString(1, "Price Break");
+	            						+ "values(?,?,?,?,?,?,?,?,?)");
+	            					st.setString(1, "PriceBreak");
 		    						st.setString(2, fields[0]);
 		    						st.setString(3, fields[1]);
 		    						st.setString(4, fields[2]);
@@ -141,18 +142,20 @@ public class Strat3 {
 		    						
 		    						Transactions++;
 		    						
-		    						if(shares >= Integer.parseInt(fields[3])){
-		    						shares -= Integer.parseInt(fields[3]);
-		    						MoneyTotal += Double.parseDouble(fields[1])*Integer.parseInt(fields[3]);
-		    						st.setString(6, fields[3]);
+		    						if(shares >= Integer.parseInt(fields[4])){
+		    						shares -= Integer.parseInt(fields[4]);
+		    						profit += Double.parseDouble(fields[2])*Integer.parseInt(fields[4]);
+		    						MoneyTotal += Double.parseDouble(fields[2])*Integer.parseInt(fields[4]);
+		    						st.setString(6, fields[4]);
 		    						}else{
-		    							MoneyTotal += Double.parseDouble(fields[1])*shares;
+		    							profit += Double.parseDouble(fields[2])*shares;
+		    							MoneyTotal += Double.parseDouble(fields[2])*shares;
 		    							st.setString(6, Integer.toString(shares));
 		    							shares = 0;
 		    						}
 		    						
 		    						if(shares == 0){
-		    						st.setString(7, Double.toString(100*(MoneyTotal/InitialTransaction)));
+		    						st.setString(7, Double.toString(100*(profit/InitialTransaction)));
 		    						}else{
 		    							st.setString(7,"0.0");
 		    							}
@@ -165,9 +168,9 @@ public class Strat3 {
 			    						//	Integer.parseInt(fields[3]));
 		    						
 		    						if(shares == 0 && InitialTransaction != 0){
-		    							if( Math.sqrt(MoneyTotal*MoneyTotal)>=(0.01*InitialTransaction)){
+		    							if( Math.abs(profit)>=(0.01*InitialTransaction)){
 		    	            				System.out.println("Price Breakout Strategy exiting");
-		    	            				System.out.println("Profit: "+100*(MoneyTotal/TrueInitialTransaction)+"%");
+		    	            				System.out.println("Profit: "+100*(profit/InitialTransaction)+"%");
 		    	            				System.out.println("Number of transactions: "+Transactions);
 		    	            				return;
 		    	            			}
@@ -175,7 +178,7 @@ public class Strat3 {
 	            				}
 	            			}
 	            		}
-	            	if(count%1000 == 0)
+	            	if(count%4000 == 0)
 	            		trigger--;
 	            	count++;
 	            	}
@@ -192,9 +195,3 @@ public class Strat3 {
 			}
 		}
 	}
-
-
-
-		
-		
-

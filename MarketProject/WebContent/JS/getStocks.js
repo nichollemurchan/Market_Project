@@ -17,10 +17,20 @@
                 request.open("GET", url, true);
                 request.onreadystatechange = myHandleCallback;
                 request.send(null); 
-               
             }
         }
-       
+        
+        function manualTrade(tradePosition) {
+
+            if (request != null) {
+                var textField = document.getElementById("manualSymbol");
+                var textField1 = document.getElementById("manualQuantity");
+                var url = "rest/manualTrade?str=" + textField.value + "&quantity=" + textField1.value + "&tradePosition=" + tradePosition;
+                request.open("GET", url, textField1, true);
+                request.onreadystatechange = myHandleCallback;
+                request.send(null); 
+            }
+        }
 
         function myOnKeyUp1() {
 
@@ -58,6 +68,36 @@
             }
         }
         
+        function Strat4() {
+
+            if (request != null) {
+                var textField = document.getElementById("Strat4InputField");
+                var url = "rest/Strat4?str=" + textField.value;
+
+                request.open("GET", url, true);
+               // request.onreadystatechange = myHandleCallback1;
+                request.send(null);
+            }
+        }
+
+
+        function Profit4() {
+            if (request != null) {
+                var url = "rest/GetProfit?str=Bollinger B";
+
+                request.open("GET", url, true);
+                request.onreadystatechange = ProfitCallback4;
+                request.send(null);
+            }
+        }
+  
+        function ProfitCallback4() {
+            if (request.readyState == 4 && request.status == 200) {
+                var outputField = document.getElementById("Strat4EchoField");
+                outputField.innerHTML = request.responseText;
+            }
+        }
+        
         function myOnKeyUp2() {
 
             if (request != null) {
@@ -77,6 +117,7 @@
             if (request.readyState == 4 && request.status == 200) {
                 var outputField = document.getElementById("myEchoField");
                 outputField.innerHTML = request.responseText;
+                document.getElementById("goto").scrollIntoView();
             }
         }
         

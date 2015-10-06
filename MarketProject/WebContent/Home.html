@@ -49,31 +49,45 @@
 			<div class="col-sm-3 col-md-2 sidebar">
 				<ul class="nav nav-sidebar">
 					<li><img src="Images/Citi.png" id="logo" /></li>
-					<li class="active"><a href="#">Live Market Feed <span
-							class="sr-only">(current)</span></a></li>
-					<li><a href="#">Strategy1</a></li>			
-					<li><a href="#">Strategy2</a></li>
-					<li><a href="#">Stats</a></li>
+					<li class="active"><a href="#strategies">Strategies<span class="sr-only">(current)</span></a></li>
+					<li><a href="#manualTrading">Manual Trading</a></li>			
+					<li><a href="#portfolio">Portfolio</a></li>
+					<li><a href="#stats">Stats</a></li>
 				</ul>
 			</div>
-			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-				<h1 class="page-header">Live Market Feed</h1>
-				<div class="table-responsive">
-
-					<form>
-						<h2>Show Market</h2>
-						<button type="button" onclick="myOnKeyUp2()">Update</button>
-						<br /> <br />
-						<p id="myEchoField2"></p>
-
-						<h2>Enter stock symbol to see current price</h2>
-						<input type="text" id="myInputField">
-						<button type="button" onclick="myOnKeyUp()">Update</button>
-						<br /> <br />
-						<p id="myEchoField"></p>
-
-						<h2>Activate Auto Trader for a Stock</h2>
-						<input type="text" id="myInputField1">
+			<div class="col-sm-5 col-sm-offset-3 col-md-5 col-md-offset-2 main">
+			
+				<div class="tab-content">
+    				<div id="strategies" class="tab-pane fade in active">
+						<h1 class="page-header">Strategies</h1>
+					
+					  <!--	<form role="form">
+						  	<h3>Launch Multiple Automated Strategies:</h3>
+						  	<br />
+						    <div class="checkbox">
+						      <label><input type="checkbox" value="">Two Moving Averages</label>
+						    </div>
+						    <div class="checkbox">
+						      <label><input type="checkbox" value="">Exponential Moving Averages</label>
+						    </div>
+						    <div class="checkbox">
+						      <label><input type="checkbox" value="">Price Breakout</label>
+						    </div>
+						    <br />
+						    <div class="form-group">
+						      <label for="symbol">Enter symbols to perform strategies on:</label>
+						      <input type="text" class="form-control" id="symbol">
+						    </div>
+						    <br />
+							<div class="btn-group btn-group-justified">
+							    <a href="#" class="btn btn-primary">Start</a>
+							    <a href="#" class="btn btn-primary disabled">Stop</a>
+							    <a href="#" class="btn btn-primary disabled">Continue</a>
+							</div>
+				  		</form> -->
+					
+					
+					 	<input type="text" id="myInputField1">
 						<button type="button" onclick="myOnKeyUp1(); alert('Started Trading')">Start
 							Standard Moving Average Strategy</button>
 						<button type="button" onclick="Profit1">Show Profit</button>
@@ -92,9 +106,58 @@
 							Price Breakout Strategy</button>
 						<button type="button" onclick="Profit3">Show Profit</button>
 							<br /> <br />
-						<p id="Strat3EchoField"></p>
+						<p id="Strat3EchoField"></p> 
+						
+						<input type="text" id="Strat4InputField">
+						<button type="button" onclick="Strat4(); alert('Started Trading')">Start
+							Bollinger Bands Strategy</button>
+						<button type="button" onclick="Profit4">Show Profit</button>
+							<br /> <br />
+						<p id="Strat4EchoField"></p>
+						
+						
+					</div>
+					<div id="manualTrading" class="tab-pane fade">
+						<h2>Manual Trading</h2>
+							<input type="text" id="manualSymbol">
+							<input type="text" id="manualQuantity">
+							<button id="buyButton" type="button" onclick="manualTrade('Buy')">Buy</button>
+							<button id="sellButton" type="button" onclick="manualTrade('Sell')">Sell</button>
+							<br /> <br />
+							<p id="manualTradingField"></p>
+					
+					</div>
+    				<div id="portfolio" class="tab-pane fade">
+						<h1 class="page-header">Portfolio</h1>
+					
+					</div>
+    				<div id="stats" class="tab-pane fade">
+						<h1 class="page-header">Stats</h1>
+					
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-5 col-sm-offset-0 col-md-5 col-md-offset-0" id="liveMarket">
+				<div class="table-responsive">
+	
+			<div class="form-group">
+				<h4>Show Market</h4>
+				<button type="button" onclick="myOnKeyUp2()">Update</button>
+				<br /> <br />
+				<p id="myEchoField2"></p>
+					
+				<form class="form-inline" > 	
+					<label for="myInputField">Additional Symbols:</label>		
+					
+					<input type="text" class="form-control" id="myInputField">
+					<button class="btn btn-default" onclick="myOnKeyUp()">Submit</button>
+				</form>
+				<br /> <br />
+				<p id="myEchoField"></p>
+				<p id="goto"></p>
+				
+			</div>						
 
-					</form>
 				</div>
 			</div>
 		</div>
@@ -103,15 +166,15 @@
 	<!-- Bootstrap core JavaScript
     ================================================== -->
 	<!-- Placed at the end of the document so the pages load faster -->
-	<script
-		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	<script src="JS/bootstrap.min.js"></script>
-	<!-- Just to make our placeholder images work. Don't actually copy the next line! -->
-	<script src="JS/vendor/holder.min.js"></script>
 	<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 	<script src="JS/ie10-viewport-bug-workaround.js"></script>
+	<!-- ============================================== -->
+	
 	
 	<script src="JS/getStocks.js"></script>
+	<script src="JS/jQueryUI.js"></script>
 	
 </body>
 </html>
