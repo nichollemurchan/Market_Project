@@ -43,13 +43,13 @@ QuantityOfStocks int, QuantityInDollars double(6,2));
 
 		Class.forName("com.mysql.jdbc.Driver");
 		Connection cn = DriverManager.getConnection(
-				"jdbc:mysql://localhost/ad3db", "root", "rU1DDbaTWTSI");
+				"jdbc:mysql://localhost/ad3db", "root", "");
 
 		StringBuilder url = new StringBuilder(
 				"http://finance.yahoo.com/d/quotes.csv?s=");
 		url.append(str + "+");
 		url.deleteCharAt(url.length() - 1);
-		url.append("&f=saa5&e=.csv");
+		url.append("&f=saa5bb6&e=.csv");
 
 		String theUrl = url.toString();
 		URL obj = new URL(theUrl);
@@ -83,9 +83,9 @@ QuantityOfStocks int, QuantityInDollars double(6,2));
 					PreparedStatement st = cn
 						.prepareStatement("INSERT INTO manualTrading(CompanyName, BuyOrSellAmount, BuyOrSell, QuantityOfStocks, QuantityInDollars)"
 								+ " VALUES(?,?,?,?,?)");
-					st.setString(1, fields[0]);
-					st.setString(2, Integer.toString(quantity));
-					st.setString(3, "Buy");
+					st.setString(1, fields[0]);//CompanyName
+					st.setString(2, Integer.toString(quantity));//BuyOrSellAmount
+					st.setString(3, "Buy");//BuyOrSell
 	
 					try {				
 						Statement st1 = cn.createStatement();
@@ -97,9 +97,10 @@ QuantityOfStocks int, QuantityInDollars double(6,2));
 						System.out.println("Error getting data " + ex);
 					}
 					
-					st.setString(4, Integer.toString(cumulativeQuantity));
+					st.setString(4, Integer.toString(cumulativeQuantity));//QuantityOfStocks
+					
 					double dollarQuantity = (quantity * (Double.parseDouble(fields[1])));
-					st.setString(5, Double.toString(dollarQuantity));
+					st.setString(5, Double.toString(dollarQuantity));//QuantityInDollars
 					st.executeUpdate();
 				}
 			}//buy method
@@ -111,11 +112,9 @@ QuantityOfStocks int, QuantityInDollars double(6,2));
 			
 			else{
 				String companyName = fields[0];
+				int maxSellSize = (Integer.parseInt(fields[4]));
 				System.out.println("Manually Selling " + str + " stock");
-				
-	
-					
-					
+
 					try {				
 						Statement st2 = cn.createStatement();
 						ResultSet rs = st2.executeQuery("SELECT SUM(BuyOrSellAmount) AS overallSize FROM manualtrading WHERE CompanyName ='"+ companyName +"'");
@@ -133,12 +132,17 @@ QuantityOfStocks int, QuantityInDollars double(6,2));
 					}
 				
 				
+				if (maxSellSize<quantity){
+						System.out.println("Quantity of stocks requested to sell: " + quantity + 
+								" is greater than the total amount of stocks available to sell: " + maxSellSize);
+						
+					}
 				
-				if(cumulativeQuantity<quantity){
+				else if(cumulativeQuantity<quantity){
 					System.out.println("Quantity of stocks requested to sell: " + quantity + 
 							" is greater than the total amount of stocks currently owned: " + cumulativeQuantity);
 					
-				}
+				}		
 				else{
 					PreparedStatement st = cn
 							.prepareStatement("INSERT INTO manualTrading(CompanyName, BuyOrSellAmount, BuyOrSell, "
@@ -147,7 +151,7 @@ QuantityOfStocks int, QuantityInDollars double(6,2));
 					
 					st.setString(1, fields[0]);	
 					
-					quantity = -(quantity);
+					
 					st.setString(2, Integer.toString(quantity));
 					
 					st.setString(3, "Sell");
@@ -157,7 +161,7 @@ QuantityOfStocks int, QuantityInDollars double(6,2));
 						Statement st3 = cn.createStatement();
 						ResultSet rs = st3.executeQuery("SELECT SUM(BuyOrSellAmount) AS overallSize FROM manualtrading WHERE CompanyName ='"+ companyName+"'");
 						if (rs.next()) {
-							cumulativeQuantity = (rs.getInt(1)+quantity);
+							cumulativeQuantity = (rs.getInt(1)-quantity);
 						}
 					}
 					catch (SQLException ex) {
@@ -166,7 +170,7 @@ QuantityOfStocks int, QuantityInDollars double(6,2));
 					
 			
 					st.setString(4, Integer.toString(cumulativeQuantity));
-					double dollarQuantity = (quantity * (Double.parseDouble(fields[1])));
+					double dollarQuantity = (quantity * (Double.parseDouble(fields[3])));
 					st.setString(5, Double.toString(dollarQuantity));
 					st.executeUpdate();
 					

@@ -7,6 +7,7 @@ import java.net.URL;
 //import java.util.Arrays;
 
 
+
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -19,15 +20,17 @@ public class RestFeed2 {
 	@GET
 	@Produces("text/html")
 	public String getData(){
-		String result="<table class='table table-striped'<thead><tr><th>StockS</th><th>Ask price</th><th>Bid price</th><th>Change</th></tr></thead>";
+		String result="<table class='table table-striped'<thead><tr><th> Stocks </td><th> Ask Price </td>"
+				+ "<th> Ask Size </td><th> Bid Price </td><th> Bid Size </td><th> Change </td></th></thead>";
 		try{
-		String[] stocks = {"IXIC", "MSFT", "CSCO", "AAPL","GOOG","QCOM","ORCL","EMC", "TXN", "YHOO"};
+		String[] stocks = {"ABF.L", "ADM.L", "AV.L", "BP.L","DC.L","DGE.L","DLG.L","EZJ.L", "HSBA.L", "ITV.L"};
 		StringBuilder url = 
 	            new StringBuilder("http://finance.yahoo.com/d/quotes.csv?s=");
 		for (String s : stocks)
             url.append(s + "+");
         url.deleteCharAt(url.length()-1);
-        url.append("&f=sabp2&e=.csv");
+        //url.append("&f=sabp2&e=.csv");
+        url.append("&f=saa5bb6p2&e=.csv");
         
         String theUrl = url.toString();
         URL obj = new URL(theUrl);
@@ -43,7 +46,8 @@ public class RestFeed2 {
        // String[] fields = null;
         while ((inputLine = in.readLine()) != null){
         	String[] fields = inputLine.split(",");
-        	result += "<tr><td>"+fields[0]+"</td><td>"+fields[1]+"</td><td>"+fields[2]+"</td><td>"+fields[3]+"</td></tr>";
+        	result += "<tr><td>"+fields[0]+"</td><td>"+fields[1]+"</td><td>"+fields[2]+"</td><td>"+fields[3]+"</td><td>"
+                	+fields[4]+"</td><td>"+fields[5]+"</td></tr>"; 
         }  
         result += "</table>";
        // Arrays.fill(fields, null);
