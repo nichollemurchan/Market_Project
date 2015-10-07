@@ -61,34 +61,38 @@
     				<div id="strategies" class="tab-pane fade in active">
 						<h1 class="page-header">Strategies</h1>
 					
-					  	<form role="form">
-						  	<h3>Launch Multiple Automated Strategies:</h3>
+					  	
+						  	<h3>Launch an Automated Strategy:</h3>
 						  	<br />
-						    <div class="checkbox">
-						      <label><input type="checkbox" id="TMAcheck" value="TMA">Two Moving Averages</label>
-						    </div>
-						    <div class="checkbox">
-						      <label><input type="checkbox" id="EMAcheck" value="EMA">Exponential Moving Averages</label>
-						    </div>
-						    <div class="checkbox">
-						      <label><input type="checkbox" id="PBcheck" value="PB">Price Breakout</label>
-						    </div>
-						    <div class="checkbox">
-						      <label><input type="checkbox" id="BBcheck" value="BB">Bolinger Bands</label>
-						    </div>						    
-						    <br />
+						  	
+						    <form role="form">
+    							<div class="radio">
+      								<label><input type="radio" id="TMAradio" name="optradio">Two Moving Averages</label>
+    							</div>
+    							<div class="radio">
+     								<label><input type="radio" id="EMAradio" name="optradio">Exponential Moving Averages</label>
+    							</div>
+    							<div class="radio">
+      								<label><input type="radio" id="PBradio" name="optradio">Price Breakout</label>
+    							</div>
+    							<div class="radio">
+      								<label><input type="radio" id="BBradio" name="optradio">Bollinger Bands</label>
+    							</div>
+    							<br />
+    							<div class="form-group">
+						      		<label for="symbol">Enter symbols to perform strategies on:</label>
+						      		<input type="text" class="form-control" id="symbol">
+						    	</div>
+						    	<br />
+								<div class="btn-group btn-group-justified">
+								    <a href="#" onclick="performStrategies()" class="btn btn-primary">Start</a>
+								    <a href="#" class="btn btn-primary disabled">Stop</a>
+								    <a href="#" class="btn btn-primary disabled">Continue</a>
+								</div>
+  							</form>
 						    
-						    <div class="form-group">
-						      <label for="symbol">Enter symbols to perform strategies on:</label>
-						      <input type="text" class="form-control" id="symbol">
-						    </div>
-						    <br />
-							<div class="btn-group btn-group-justified">
-							    <a href="#" onclick="performStrategies()" class="btn btn-primary">Start</a>
-							    <a href="#" class="btn btn-primary disabled">Stop</a>
-							    <a href="#" class="btn btn-primary disabled">Continue</a>
-							</div>
-				  		</form>
+						    
+				  		
 					
 					
 					 	<!-- <input type="text" id="myInputField1">
@@ -123,17 +127,53 @@
 					</div>
 					<div id="manualTrading" class="tab-pane fade">
 						<h2>Manual Trading</h2>
-							<input type="text" id="manualSymbol">
+							<!-- <input type="text" id="manualSymbol">
 							<input type="text" id="manualQuantity">
 							<button id="buyButton" type="button" onclick="manualTrade('Long')">Buy</button>
 							<button id="sellButton" type="button" onclick="manualTrade('Short')">Sell</button>
 							<br /> <br />
-							<p id="manualTradingField"></p>
+							<p id="manualTradingField"></p>-->
 					
 					</div>
     				<div id="portfolio" class="tab-pane fade">
 						<h1 class="page-header">Portfolio</h1>
-					
+						  <p>Select an option to display portfolio information:</p>
+						  
+						  <form role="form">
+						  <a href="#" data-toggle="tooltip" title="All portfolio info">
+						    <label class="radio-inline">
+						      <input type="radio" name="optradio" id="allPortRadio">ALL
+						    </label>
+						   </a>
+						   <a href="#" data-toggle="tooltip" title="Two Moving Average portfolio info">
+						    <label class="radio-inline">
+						      <input type="radio" name="optradio" id="TMAPortRadio">TMA
+						    </label>
+						    </a>
+						    <a href="#" data-toggle="tooltip" title="Exponential Moving Average portfolio info">
+						    <label class="radio-inline">
+						      <input type="radio" name="optradio" id="EMAPortRadio">EMA
+						    </label>
+						    </a>
+						    <a href="#" data-toggle="tooltip" title="Price Breakout portfolio info">
+						    <label class="radio-inline">
+						      <input type="radio" name="optradio" id="PBPortRadio">PB
+						    </label>
+						    </a>
+						    <a href="#" data-toggle="tooltip" title="Bollinger Bands portfolio info">
+						    <label class="radio-inline">
+						      <input type="radio" name="optradio" id="BBPortRadio">BB
+						    </label>
+						    </a>
+						    <a href="#" data-toggle="tooltip" title="Manual portfolio info">
+						    <label class="radio-inline">
+						      <input type="radio" name="optradio" id="MANPortRadio">MAN
+						    </label>
+						    </a>
+						    <button class="btn btn-primary" onclick="examinePortfolio()">Show</button>
+						  </form>
+						  <br />
+						  <div id="portfolioOutput"></div>
 					</div>
     				<div id="stats" class="tab-pane fade">
 						<h1 class="page-header">Stats</h1>
@@ -148,7 +188,7 @@
 				<h4>Show Market</h4>
 				<button type="button" onclick="myOnKeyUp2()">Update</button>
 				<br /> <br />
-				<p id="myEchoField2"></p>
+				<div id="myEchoField2"></div>
 					
 				<form class="form-inline" > 	
 					<label for="myInputField">Additional Symbols:</label>		
@@ -157,7 +197,7 @@
 					<button class="btn btn-default" onclick="myOnKeyUp()">Submit</button>
 				</form>
 				<br /> <br />
-				<p id="myEchoField"></p>
+				<div id="myEchoField"></div>
 				<p id="goto"></p>
 				
 			</div>						

@@ -34,7 +34,7 @@ public class manualTrade {
 
 		Class.forName("com.mysql.jdbc.Driver");
 		Connection cn = DriverManager.getConnection(
-				"jdbc:mysql://localhost/ad3db", "root", "");
+				"jdbc:mysql://localhost/ad3db", "root", "password");
 
 		StringBuilder url = new StringBuilder(
 				"http://finance.yahoo.com/d/quotes.csv?s=");

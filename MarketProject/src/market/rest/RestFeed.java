@@ -20,8 +20,8 @@ public class RestFeed {
 	@GET
 	@Produces("text/html")
 	public String getData(@QueryParam("str") String str) {
-		String result="<table class='table table-striped'<thead><tr><th> Stocks </td><th> Ask Price </td>"
-				+ "<th> Ask Size </td><th> Bid Price </td><th> Bid Size </td><th> Change </td></th></thead>";
+		String result="<table class='table table-striped'><thead><tr><th> Stocks </th><th> Ask Price </th>"
+				+ "<th> Ask Size </th><th> Bid Price </th><th> Bid Size </th><th> Change </th></tr></thead>";
 		try{
 		List<String> items = Arrays.asList(str.split("\\s*,\\s*"));
 		StringBuilder url = 
