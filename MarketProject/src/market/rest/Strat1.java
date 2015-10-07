@@ -29,7 +29,7 @@ public class Strat1 {
 		System.out.println("Standard Moving Average Strategy Activated");
 		
 		Class.forName("com.mysql.jdbc.Driver");
-		Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/ad3db", "root", "rU1DDbaTWTSI");
+		Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/ad3db", "root", "");
 		/*PreparedStatement in1 = cn.prepareStatement(" drop table Trades2");
 		PreparedStatement in2 = cn.prepareStatement("create table Trades2(id int AUTO_INCREMENT PRIMARY KEY, "
 				+ "Author nvarchar(15), DateCreated timestamp, CompanyName nvarchar(10), AskPrice double, "

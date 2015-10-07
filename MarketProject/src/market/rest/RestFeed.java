@@ -20,7 +20,8 @@ public class RestFeed {
 	@GET
 	@Produces("text/html")
 	public String getData(@QueryParam("str") String str) {
-		 String result = "<table class='table table-striped'<thead><tr><th>StockS</th><th>Ask price</th><th>Bid price</th><th>Change</th></tr></thead>";
+		String result="<table class='table table-striped'<thead><tr><th> Stocks </td><th> Ask Price </td>"
+				+ "<th> Ask Size </td><th> Bid Price </td><th> Bid Size </td><th> Change </td></th></thead>";
 		try{
 		List<String> items = Arrays.asList(str.split("\\s*,\\s*"));
 		StringBuilder url = 
@@ -29,7 +30,8 @@ public class RestFeed {
             	url.append(s + "+");
             }
         url.deleteCharAt(url.length()-1);
-        url.append("&f=sabp2&e=.csv");
+        //url.append("&f=sabp2&e=.csv");
+        url.append("&f=saa5bb6p2&e=.csv");
         
         String theUrl = url.toString();
         URL obj = new URL(theUrl);
@@ -50,7 +52,8 @@ public class RestFeed {
 
             }
             else{
-                 result += "<tr><td>"+fields[0]+"</td><td>"+fields[1]+"</td><td>"+fields[2]+"</td><td>"+fields[3]+"</td></tr>";
+            	result += "<tr><td>"+fields[0]+"</td><td>"+fields[1]+"</td><td>"+fields[2]+"</td><td>"+fields[3]+"</td><td>"
+                    	+fields[4]+"</td><td>"+fields[5]+"</td></tr>"; 
             }
 
         }    
