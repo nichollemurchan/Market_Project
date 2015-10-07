@@ -19,7 +19,7 @@ public class GetProfit {
 	public String stratagy1(@QueryParam("str") String str) throws SQLException, ClassNotFoundException {
 		String temp="<table><tr><td>Time</td><td>Profit</td></tr>";
 		Class.forName("com.mysql.jdbc.Driver");
-		Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/montestdb", "root", "");
+		Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/montestdb", "root", "password");
 		PreparedStatement st = cn.prepareStatement("select DateCreated, DollarProfit from Trades1"
 				+ "where Author=? and shares=0");
 		st.setString(1, str);
