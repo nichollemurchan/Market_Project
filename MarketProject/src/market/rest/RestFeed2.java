@@ -23,7 +23,9 @@ public class RestFeed2 {
 		String result="<table class='table table-striped'><thead><tr><th> Stocks </th><th> Ask Price </th>"
 				+ "<th> Ask Size </th><th> Bid Price </th><th> Bid Size </th><th> Change </th></tr></thead>";
 		try{
-		String[] stocks = {"ABF.L", "ADM.L", "AV.L", "BP.L","DC.L","DGE.L","DLG.L","EZJ.L", "HSBA.L", "ITV.L"};
+			
+		String[] stocks = {"GOOG", "IBM", "YHOO", "TXN", "AA", "AAPL"};
+		//String[] stocks = {"ABF.L", "ADM.L", "AV.L", "BP.L","DC.L","DGE.L","DLG.L","EZJ.L", "HSBA.L", "ITV.L"};
 		StringBuilder url = 
 	            new StringBuilder("http://finance.yahoo.com/d/quotes.csv?s=");
 		for (String s : stocks)

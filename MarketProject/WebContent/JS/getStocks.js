@@ -80,7 +80,7 @@
                 var textField = document.getElementById("manualSymbol");
                 var textField1 = document.getElementById("manualQuantity");
                 var url = "rest/manualTrade?str=" + textField.value + "&quantity=" + textField1.value + "&tradePosition=" + tradePosition;
-                request.open("GET", url, textField1, true);
+                request.open("GET", url, true);
                 request.onreadystatechange = myHandleCallback;
                 request.send(null); 
             }
@@ -164,7 +164,7 @@
             }
         }
         
-        setInterval('myOnKeyUp2()', 10000);
+        setInterval('myOnKeyUp2()', 1000);
 
         function myHandleCallback() {
 

@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.ProtocolException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -12,19 +11,17 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 
-import org.jboss.logging.*;
+import org.jboss.logging.Logger;
 
 @Path("/manualTrade")
 public class manualTrade {
-
+	
 	@GET
 	@Produces("text/html")
 	public void stratagy1(@QueryParam("str") String str,
@@ -171,6 +168,4 @@ public class manualTrade {
 			}
 		}
 
-	}
-
-}
+	}}
