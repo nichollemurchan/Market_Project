@@ -61,33 +61,37 @@
     				<div id="strategies" class="tab-pane fade in active">
 						<h1 class="page-header">Strategies</h1>
 					
-					  <!--	<form role="form">
+					  	<form role="form">
 						  	<h3>Launch Multiple Automated Strategies:</h3>
 						  	<br />
 						    <div class="checkbox">
-						      <label><input type="checkbox" value="">Two Moving Averages</label>
+						      <label><input type="checkbox" id="TMAcheck" value="TMA">Two Moving Averages</label>
 						    </div>
 						    <div class="checkbox">
-						      <label><input type="checkbox" value="">Exponential Moving Averages</label>
+						      <label><input type="checkbox" id="EMAcheck" value="EMA">Exponential Moving Averages</label>
 						    </div>
 						    <div class="checkbox">
-						      <label><input type="checkbox" value="">Price Breakout</label>
+						      <label><input type="checkbox" id="PBcheck" value="PB">Price Breakout</label>
 						    </div>
+						    <div class="checkbox">
+						      <label><input type="checkbox" id="BBcheck" value="BB">Bolinger Bands</label>
+						    </div>						    
 						    <br />
+						    
 						    <div class="form-group">
 						      <label for="symbol">Enter symbols to perform strategies on:</label>
 						      <input type="text" class="form-control" id="symbol">
 						    </div>
 						    <br />
 							<div class="btn-group btn-group-justified">
-							    <a href="#" class="btn btn-primary">Start</a>
+							    <a href="#" onclick="performStrategies()" class="btn btn-primary">Start</a>
 							    <a href="#" class="btn btn-primary disabled">Stop</a>
 							    <a href="#" class="btn btn-primary disabled">Continue</a>
 							</div>
-				  		</form> -->
+				  		</form>
 					
 					
-					 	<input type="text" id="myInputField1">
+					 	<!-- <input type="text" id="myInputField1">
 						<button type="button" onclick="myOnKeyUp1(); alert('Started Trading')">Start
 							Standard Moving Average Strategy</button>
 						<button type="button" onclick="Profit1">Show Profit</button>
@@ -113,7 +117,7 @@
 							Bollinger Bands Strategy</button>
 						<button type="button" onclick="Profit4">Show Profit</button>
 							<br /> <br />
-						<p id="Strat4EchoField"></p>
+						<p id="Strat4EchoField"></p> -->
 						
 						
 					</div>

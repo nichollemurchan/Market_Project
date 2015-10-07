@@ -1,5 +1,8 @@
 
         var request = myCreateXMLHttpRequest();
+        
+        
+        
 
         function myCreateXMLHttpRequest() {
             try { return new ActiveXObject("Msxml2.XMLHTTP"); } catch (e) { }
@@ -20,6 +23,22 @@
             }
         }
         
+        function performStrategies() {
+        	
+        	if (document.getElementById("TMAcheck").checked == true) {
+        		myOnKeyUp1();
+        	}
+        	if (document.getElementById("EMAcheck").checked == true) {
+        		Strat2();
+        	}
+        	if (document.getElementById("PBcheck").checked == true) {
+        		Strat3();
+        	}
+        	if (document.getElementById("BBcheck").checked == true) {
+        		Strat4();
+        	}
+        }
+        
         function manualTrade(tradePosition) {
 
             if (request != null) {
@@ -35,7 +54,7 @@
         function myOnKeyUp1() {
 
             if (request != null) {
-                var textField = document.getElementById("myInputField1");
+                var textField = document.getElementById("symbol");
                 var url = "rest/Strat1?str=" + textField.value;
 
                 request.open("GET", url, true);
@@ -47,7 +66,7 @@
         function Strat2() {
 
             if (request != null) {
-                var textField = document.getElementById("Strat2InputField");
+                var textField = document.getElementById("symbol");
                 var url = "rest/Strat2?str=" + textField.value;
 
                 request.open("GET", url, true);
@@ -59,7 +78,7 @@
         function Strat3() {
 
             if (request != null) {
-                var textField = document.getElementById("Strat3InputField");
+                var textField = document.getElementById("symbol");
                 var url = "rest/Strat3?str=" + textField.value;
 
                 request.open("GET", url, true);
@@ -71,7 +90,7 @@
         function Strat4() {
 
             if (request != null) {
-                var textField = document.getElementById("Strat4InputField");
+                var textField = document.getElementById("symbol");
                 var url = "rest/Strat4?str=" + textField.value;
 
                 request.open("GET", url, true);
@@ -110,7 +129,7 @@
             }
         }
         
-        setIncrement('myOnKeyUp2()', 300);
+        setInterval('myOnKeyUp2()', 300);
 
         function myHandleCallback() {
 
