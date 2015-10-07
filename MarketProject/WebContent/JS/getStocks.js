@@ -25,17 +25,52 @@
         
         function performStrategies() {
         	
-        	if (document.getElementById("TMAcheck").checked == true) {
+        	if (document.getElementById("TMAradio").checked == true) {
         		myOnKeyUp1();
+        		console.log("TMA: "+ document.getElementById("TMAradio").checked);
         	}
-        	if (document.getElementById("EMAcheck").checked == true) {
+        	if (document.getElementById("EMAradio").checked == true) {
         		Strat2();
+        		console.log("EMA: "+ document.getElementById("EMAradio").checked);
         	}
-        	if (document.getElementById("PBcheck").checked == true) {
+        	if (document.getElementById("PBradio").checked == true) {
         		Strat3();
+        		console.log("PB: "+ document.getElementById("PBradio").checked);
         	}
-        	if (document.getElementById("BBcheck").checked == true) {
+        	if (document.getElementById("BBradio").checked == true) {
         		Strat4();
+        		console.log("BB: "+ document.getElementById("BBradio").checked);
+        	}
+        }
+        
+        function examinePortfolio() {
+        	
+        	if (document.getElementById("TMAPortRadio").checked == true) {
+        		//myOnKeyUp1();
+        		console.log("TMA: "+ document.getElementById("TMAradio").checked);
+        	}
+        	if (document.getElementById("EMAPortRadio").checked == true) {
+        		//Strat2();
+        		console.log("EMA: "+ document.getElementById("EMAradio").checked);
+        	}
+        	if (document.getElementById("PBPortRadio").checked == true) {
+        		//Strat3();
+        		console.log("PB: "+ document.getElementById("PBradio").checked);
+        	}
+        	if (document.getElementById("BBPortRadio").checked == true) {
+        		//Strat4();
+        		console.log("BB: "+ document.getElementById("BBradio").checked);
+        	}
+        	if (document.getElementById("allPortRadio").checked == true) {
+        		var url = "rest/Portfolio"
+                request.open("GET", url, true);
+                request.onreadystatechange = portfolioCallback;
+                request.send(null);
+        		console.log("All: "+ document.getElementById("allPortRadio").checked);
+        	}
+        	if (document.getElementById("MANPortRadio").checked == true) {
+        		//Strat4();
+        		console.log("BB: "+ document.getElementById("BBradio").checked);
         	}
         }
         
@@ -129,7 +164,7 @@
             }
         }
         
-        setInterval('myOnKeyUp2()', 300);
+        setInterval('myOnKeyUp2()', 10000);
 
         function myHandleCallback() {
 
@@ -145,6 +180,14 @@
             if (request.readyState == 4 && request.status == 200) {
                 var outputField = document.getElementById("myEchoField1");
                 outputField.innerHTML = "Strategy 1 activated"
+            }
+        }
+        
+        function portfolioCallback() {
+
+            if (request.readyState == 4 && request.status == 200) {
+                var outputField = document.getElementById("portfolioOutput");
+                outputField.innerHTML = request.responseText;
             }
         }
 
