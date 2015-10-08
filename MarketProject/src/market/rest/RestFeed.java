@@ -52,7 +52,7 @@ public class RestFeed {
 
             }
             else{
-            	result += "<tr><td>"+fields[0]+"</td><td>"+fields[1]+"</td><td>"+fields[2]+"</td><td>"+fields[3]+"</td><td>"
+            	result += "<tr><td>"+fields[0]+"</td><td>"+ round(Double.parseDouble(fields[1]), 2) +"</td><td>"+fields[2]+"</td><td>"+ round(Double.parseDouble(fields[3]), 2) +"</td><td>"
                     	+fields[4]+"</td><td>"+fields[5]+"</td></tr>"; 
             }
 
@@ -64,5 +64,14 @@ public class RestFeed {
 			log.error("ERROR: " + i.getMessage());
 		}
 		return result;
+	}
+	
+	public static double round(double value, int places) {
+	    if (places < 0) throw new IllegalArgumentException();
+
+	    long factor = (long) Math.pow(10, places);
+	    value = value * factor;
+	    long tmp = Math.round(value);
+	    return (double) tmp / factor;
 	}
 }

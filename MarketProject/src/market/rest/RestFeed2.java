@@ -24,8 +24,8 @@ public class RestFeed2 {
 				+ "<th> Ask Size </th><th> Bid Price </th><th> Bid Size </th><th> Change </th></tr></thead>";
 		try{
 			
-		String[] stocks = {"GOOG", "IBM", "YHOO", "TXN", "AA", "AAPL"};
-		//String[] stocks = {"ABF.L", "ADM.L", "AV.L", "BP.L","DC.L","DGE.L","DLG.L","EZJ.L", "HSBA.L", "ITV.L"};
+		//String[] stocks = {"GOOG", "IBM", "YHOO", "TXN", "AA", "AAPL"};
+		String[] stocks = {"ABF.L", "ADM.L", "AV.L", "BP.L","DC.L","DGE.L","DLG.L","EZJ.L", "HSBA.L", "ITV.L"};
 		StringBuilder url = 
 	            new StringBuilder("http://finance.yahoo.com/d/quotes.csv?s=");
 		for (String s : stocks)
@@ -48,8 +48,10 @@ public class RestFeed2 {
        // String[] fields = null;
         while ((inputLine = in.readLine()) != null){
         	String[] fields = inputLine.split(",");
-        	result += "<tr><td>"+fields[0]+"</td><td>"+fields[1]+"</td><td>"+fields[2]+"</td><td>"+fields[3]+"</td><td>"
-                	+fields[4]+"</td><td>"+fields[5]+"</td></tr>"; 
+        	
+        	
+        	result += "<tr><td>"+fields[0]+"</td><td>"+ round(Double.parseDouble(fields[1]), 2) +"</td><td>"+fields[2]+"</td><td>"+ round(Double.parseDouble(fields[3]), 2) +"</td><td>"
+                	+fields[4]+"</td><td>"+ fields[5] + "</td></tr>"; 
         }  
         result += "</table>";
        // Arrays.fill(fields, null);
@@ -59,6 +61,15 @@ public class RestFeed2 {
 			log.error("ERROR: " + i.getMessage());
 		}
 		return result;
+	}
+	
+	public static double round(double value, int places) {
+	    if (places < 0) throw new IllegalArgumentException();
+
+	    long factor = (long) Math.pow(10, places);
+	    value = value * factor;
+	    long tmp = Math.round(value);
+	    return (double) tmp / factor;
 	}
 }
 
