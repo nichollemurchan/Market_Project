@@ -13,8 +13,8 @@ import javax.ws.rs.Produces;
 
 import org.jboss.logging.Logger;
 
-@Path("/Portfolio")
-public class Portfolio {
+@Path("/Test")
+public class TestRest {
 	
 	@GET
 	@Produces("text/html")
@@ -24,7 +24,7 @@ public class Portfolio {
 		
 		String result = "<table class='table table-striped'><thead><tr><th> Author </th><th> Date </th>"
 				+ "<th> Company Name </th><th> Ask Price </th><th> Bid Price </th><th> Position  </th>"
-				+ "<th> Shares </th><th> Dollar Profit </th></tr></thead>";
+				+ "<th> Size </th><th> Profit % </th><th> Shares </th><th> Dollar Profit </th></tr></thead>";
 		try {
 			Statement st = cn.createStatement();
 			ResultSet rs = st.executeQuery("SELECT * FROM Trades");

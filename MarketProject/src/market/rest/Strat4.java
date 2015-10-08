@@ -129,7 +129,7 @@ public class Strat4 {
             		
             		if(shares != 0){
             			
-            			if((Double.parseDouble(fields[1])+Double.parseDouble(fields[2]))/2.0 > (longAve-SD)){
+            			if((Double.parseDouble(fields[1])+Double.parseDouble(fields[2]))/2.0 > (longAve+SD)){
             				
             			PreparedStatement st = cn.prepareStatement("insert into Trades(Author, CompanyName, AskPrice, "
             						+ "BidPrice, Position, size, ProfitPercent, shares, DollarProfit)"

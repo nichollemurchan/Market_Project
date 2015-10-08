@@ -55,7 +55,7 @@
 					<li><a href="#stats">Stats</a></li>
 				</ul>
 			</div>
-			<div class="col-sm-5 col-sm-offset-3 col-md-5 col-md-offset-2 main">
+			<div class="col-sm-5 col-sm-offset-3 col-md-6 col-md-offset-2 main">
 			
 				<div class="tab-content">
     				<div id="strategies" class="tab-pane fade in active">
@@ -126,13 +126,22 @@
 						
 					</div>
 					<div id="manualTrading" class="tab-pane fade">
-						<h2>Manual Trading</h2>
-							<!-- <input type="text" id="manualSymbol">
-							<input type="text" id="manualQuantity">
-							<button id="buyButton" type="button" onclick="manualTrade('Long')">Buy</button>
-							<button id="sellButton" type="button" onclick="manualTrade('Short')">Sell</button>
-							<br /> <br />
-							<p id="manualTradingField"></p>-->
+						<h1 class="page-header">Manual Trading</h1>
+						<br />
+						<label for="manualSymbol">Enter a stock symbol to buy/sell:</label>	
+						<input type="text" class="form-control" id="manualSymbol">
+						<br />
+						<label for="manualQuantity">Enter how much you would like to buy/sell:</label>	
+						<input type="text" class="form-control" id="manualQuantity">
+						<br />
+						<div class="btn-group btn-group-justified">
+							    <a href="#" onclick="manualTrade('Long')" class="btn btn-primary">Buy</a>
+							    <a href="#" onclick="manualTrade('Short')" class="btn btn-primary">Sell</a>
+						</div>
+					<!--  	<button id="buyButton" type="button" onclick="manualTrade('Long')">Buy</button>
+						<button id="sellButton" type="button" onclick="manualTrade('Short')">Sell</button>-->
+						<br /> <br />
+						<p id="manualTradingField"></p>
 					
 					</div>
     				<div id="portfolio" class="tab-pane fade">
@@ -142,35 +151,38 @@
 						  <form role="form">
 						  <a href="#" data-toggle="tooltip" title="All portfolio info">
 						    <label class="radio-inline">
-						      <input type="radio" name="optradio" id="allPortRadio">ALL
+						      <input type="radio" name="optradio" id="allPortRadio">All
 						    </label>
 						   </a>
-						   <a href="#" data-toggle="tooltip" title="Two Moving Average portfolio info">
+						   <a href="#" data-toggle="tooltip" title="Two Moving Average Strategy portfolio info">
 						    <label class="radio-inline">
-						      <input type="radio" name="optradio" id="TMAPortRadio">TMA
+						      <input type="radio" name="optradio" id="TMAPortRadio">Two Moving Averages
 						    </label>
 						    </a>
-						    <a href="#" data-toggle="tooltip" title="Exponential Moving Average portfolio info">
+						    <a href="#" data-toggle="tooltip" title="Exponential Moving Average Strategy portfolio info">
 						    <label class="radio-inline">
-						      <input type="radio" name="optradio" id="EMAPortRadio">EMA
+						      <input type="radio" name="optradio" id="EMAPortRadio">Expon. MA
 						    </label>
 						    </a>
-						    <a href="#" data-toggle="tooltip" title="Price Breakout portfolio info">
+						    <a href="#" data-toggle="tooltip" title="Price Breakout Strategy portfolio info">
 						    <label class="radio-inline">
-						      <input type="radio" name="optradio" id="PBPortRadio">PB
+						      <input type="radio" name="optradio" id="PBPortRadio">Price Breakout
 						    </label>
 						    </a>
-						    <a href="#" data-toggle="tooltip" title="Bollinger Bands portfolio info">
+						    <a href="#" data-toggle="tooltip" title="Bollinger Bands Strategy portfolio info">
 						    <label class="radio-inline">
-						      <input type="radio" name="optradio" id="BBPortRadio">BB
+						      <input type="radio" name="optradio" id="BBPortRadio">Bollinger Bands
 						    </label>
 						    </a>
-						    <a href="#" data-toggle="tooltip" title="Manual portfolio info">
+						    <a href="#" data-toggle="tooltip" title="Manually added portfolio info">
 						    <label class="radio-inline">
-						      <input type="radio" name="optradio" id="MANPortRadio">MAN
+						      <input type="radio" name="optradio" id="MANPortRadio">Manual
 						    </label>
 						    </a>
-						    <button class="btn btn-primary" onclick="examinePortfolio()">Show</button>
+						    <br /> <br />
+						    <div class="btn-group btn-group-justified">
+							    <a href="#" onclick="examinePortfolio()" class="btn btn-primary">Show</a>
+							</div>
 						  </form>
 						  <br />
 						  <div id="portfolioOutput"></div>
@@ -181,22 +193,24 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-sm-5 col-sm-offset-0 col-md-5 col-md-offset-0" id="liveMarket">
+			<div class="col-sm-5 col-sm-offset-0 col-md-4 col-md-offset-0" id="liveMarket">
 				<div class="table-responsive">
 	
 			<div class="form-group">
-				<h4>Show Market</h4>
-				<button type="button" onclick="myOnKeyUp2()">Update</button>
-				<br /> <br />
+				<h2>Live Market Feed</h2>
+				<br />
 				<div id="myEchoField2"></div>
 					
 				<form class="form-inline" > 	
 					<label for="myInputField">Additional Symbols:</label>		
-					
+					<a href="#" data-toggle="tooltip" title="Enter: 'CSCO, GOOG' for more than one symbol!">
 					<input type="text" class="form-control" id="myInputField">
-					<button class="btn btn-default" onclick="myOnKeyUp()">Submit</button>
+					</a>
+					<div class="btn-group">
+						<a href="#" onclick="myOnKeyUp()" class="btn btn-primary">Refresh</a>
+					</div>
 				</form>
-				<br /> <br />
+				<br />
 				<div id="myEchoField"></div>
 				<p id="goto"></p>
 				

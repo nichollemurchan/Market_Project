@@ -12,9 +12,9 @@
         }
 
         function myOnKeyUp() {
-
-            if (request != null) {
-                var textField = document.getElementById("myInputField");
+        	
+        	if (request != null) {
+        		var textField = document.getElementById("myInputField");
                 var url = "rest/RestFeed?str=" + textField.value;
 
                 request.open("GET", url, true);
@@ -22,6 +22,7 @@
                 request.send(null); 
             }
         }
+        
         
         function performStrategies() {
         	
@@ -45,33 +46,102 @@
         
         function examinePortfolio() {
         	
-        	if (document.getElementById("TMAPortRadio").checked == true) {
-        		//myOnKeyUp1();
-        		console.log("TMA: "+ document.getElementById("TMAradio").checked);
-        	}
-        	if (document.getElementById("EMAPortRadio").checked == true) {
-        		//Strat2();
-        		console.log("EMA: "+ document.getElementById("EMAradio").checked);
-        	}
-        	if (document.getElementById("PBPortRadio").checked == true) {
-        		//Strat3();
-        		console.log("PB: "+ document.getElementById("PBradio").checked);
-        	}
-        	if (document.getElementById("BBPortRadio").checked == true) {
-        		//Strat4();
-        		console.log("BB: "+ document.getElementById("BBradio").checked);
-        	}
         	if (document.getElementById("allPortRadio").checked == true) {
-        		var url = "rest/Portfolio"
+        		clearInterval('checkTMATrades()');
+        		clearInterval('checkEMATrades()');
+        		clearInterval('checkPBTrades()');
+        		clearInterval('checkBBTrades()');
+        		clearInterval('checkManualTrades()');
+        		checkAllTrades();
+        		setInterval('checkAllTrades()', 30000);
+        		console.log("All: "+ document.getElementById("allPortRadio").checked);
+        	} else if (document.getElementById("TMAPortRadio").checked == true) {
+        		clearInterval('checkAllTrades()');
+        		clearInterval('checkEMATrades()');
+        		clearInterval('checkPBTrades()');
+        		clearInterval('checkBBTrades()');
+        		clearInterval('checkManualTrades()');
+        		checkTMATrades();        		
+        		setInterval('checkTMATrades()', 30000);
+        	} else if (document.getElementById("EMAPortRadio").checked == true) {
+        		clearInterval('checkAllTrades()');
+        		clearInterval('checkTMATrades()');
+        		clearInterval('checkPBTrades()');
+        		clearInterval('checkBBTrades()');
+        		clearInterval('checkManualTrades()');
+        		checkEMATrades();
+        		setInterval('checkEMATrades()', 30000);
+        		console.log("EMA: "+ document.getElementById("EMAPortRadio").checked);
+        	} else if (document.getElementById("PBPortRadio").checked == true) {
+        		clearInterval('checkAllTrades()');
+        		clearInterval('checkTMATrades()');
+        		clearInterval('checkEMATrades()');
+        		clearInterval('checkBBTrades()');
+        		clearInterval('checkManualTrades()');
+        		checkPBTrades();
+        		setInterval('checkPBTrades()', 30000);
+        		console.log("PB: "+ document.getElementById("PBPortRadio").checked);
+        	} else if (document.getElementById("BBPortRadio").checked == true) {
+        		clearInterval('checkAllTrades()');
+        		clearInterval('checkTMATrades()');
+        		clearInterval('checkEMATrades()');
+        		clearInterval('checkPBTrades()');
+        		clearInterval('checkManualTrades()');
+        		checkBBTrades();
+        		setInterval('checkBBTrades()', 30000);
+        		console.log("BB: "+ document.getElementById("BBPortRadio").checked);
+        	} else if (document.getElementById("MANPortRadio").checked == true) {
+        		clearInterval('checkAllTrades()');
+        		clearInterval('checkTMATrades()');
+        		clearInterval('checkEMATrades()');
+        		clearInterval('checkPBTrades()');
+        		clearInterval('checkBBTrades()');
+        		checkManualTrades();
+        		setInterval('checkManualTrades()', 30000);
+        		console.log("MAN: "+ document.getElementById("MANPortRadio").checked);
+        	}
+        }
+        
+        function checkManualTrades() {
+        	var url = "rest/MANPortfolio"
                 request.open("GET", url, true);
                 request.onreadystatechange = portfolioCallback;
                 request.send(null);
-        		console.log("All: "+ document.getElementById("allPortRadio").checked);
-        	}
-        	if (document.getElementById("MANPortRadio").checked == true) {
-        		//Strat4();
-        		console.log("BB: "+ document.getElementById("BBradio").checked);
-        	}
+        }
+        
+        function checkAllTrades() {
+        	var url = "rest/Portfolio"
+                request.open("GET", url, true);
+                request.onreadystatechange = portfolioCallback;
+                request.send(null);
+        }
+        
+        function checkTMATrades() {
+        	var url = "rest/TMAPortfolio"
+                request.open("GET", url, true);
+                request.onreadystatechange = portfolioCallback;
+                request.send(null);
+        }
+        
+        function checkPBTrades() {
+        	var url = "rest/PBPortfolio"
+                request.open("GET", url, true);
+                request.onreadystatechange = portfolioCallback;
+                request.send(null);
+        }
+        
+        function checkBBTrades() {
+        	var url = "rest/BBPortfolio"
+                request.open("GET", url, true);
+                request.onreadystatechange = portfolioCallback;
+                request.send(null);
+        }
+        
+        function checkEMATrades() {
+        	var url = "rest/EMAPortfolio"
+                request.open("GET", url, true);
+                request.onreadystatechange = portfolioCallback;
+                request.send(null);
         }
         
         function manualTrade(tradePosition) {
@@ -80,7 +150,7 @@
                 var textField = document.getElementById("manualSymbol");
                 var textField1 = document.getElementById("manualQuantity");
                 var url = "rest/manualTrade?str=" + textField.value + "&quantity=" + textField1.value + "&tradePosition=" + tradePosition;
-                request.open("GET", url, textField1, true);
+                request.open("GET", url, true);
                 request.onreadystatechange = myHandleCallback;
                 request.send(null); 
             }
@@ -164,7 +234,9 @@
             }
         }
         
-        setInterval('myOnKeyUp2()', 10000);
+        setInterval('myOnKeyUp2()', 1000);
+        
+        
 
         function myHandleCallback() {
 

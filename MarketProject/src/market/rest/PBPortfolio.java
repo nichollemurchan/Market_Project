@@ -13,8 +13,8 @@ import javax.ws.rs.Produces;
 
 import org.jboss.logging.Logger;
 
-@Path("/Portfolio")
-public class Portfolio {
+@Path("/PBPortfolio")
+public class PBPortfolio {
 	
 	@GET
 	@Produces("text/html")
@@ -27,7 +27,7 @@ public class Portfolio {
 				+ "<th> Shares </th><th> Dollar Profit </th></tr></thead>";
 		try {
 			Statement st = cn.createStatement();
-			ResultSet rs = st.executeQuery("SELECT * FROM Trades");
+			ResultSet rs = st.executeQuery("SELECT * FROM Trades WHERE Author='PriceBreak'");
 			while (rs.next()) {
 				result += "<tr><td>" + rs.getString(2) + "</td><td>" + rs.getDate(3) + "</td><td>" + rs.getString(4) 
 						+ "</td><td>" + rs.getDouble(5)+ "</td><td>" + rs.getDouble(6) + "</td><td>" + rs.getString(7) 
