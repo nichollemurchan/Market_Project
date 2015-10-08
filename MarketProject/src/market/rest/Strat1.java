@@ -15,6 +15,8 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+
+
 import org.jboss.logging.*;
 
 @Path("/Strat1")
@@ -120,8 +122,8 @@ public class Strat1 {
 	    					st.setString(6, fields[3]);
 	    					st.setString(7,"0.0");
 	    					
-	    					//OrderManager.OrderResult bought = OrderManager.getInstance().buyOrder(fields[0], Double.parseDouble(fields[2]), 
-	    							//Integer.parseInt(fields[4]));
+	    					OrderManager.OrderResult bought = OrderManager.getInstance().buyOrder(fields[0], Double.parseDouble(fields[2]), 
+	    							Integer.parseInt(fields[4]));
 	    					Transactions++;
 	    					shares += Integer.parseInt(fields[3]);
 	    					profit -= Double.parseDouble(fields[1])*Integer.parseInt(fields[3]);
@@ -169,8 +171,8 @@ public class Strat1 {
 	    						st.setString(8, Integer.toString(shares));
 		    					st.setString(9, Double.toString(MoneyTotal));
 	    						st.executeUpdate();
-	    						//OrderManager.OrderResult sold = OrderManager.getInstance().sellOrder(fields[0], Double.parseDouble(fields[1]), 
-		    						//	Integer.parseInt(fields[3]));
+	    						OrderManager.OrderResult sold = OrderManager.getInstance().sellOrder(fields[0], Double.parseDouble(fields[1]), 
+		    							Integer.parseInt(fields[3]));
 	    						
 	    						if(shares == 0 && InitialTransaction != 0){
 	    	            			if( Math.abs(profit) >= (0.01*InitialTransaction)){
