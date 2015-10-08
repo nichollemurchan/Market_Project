@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -20,7 +21,9 @@ public class Strat3 {
 
 	@GET
 	@Produces("text/html")
-	public void stratagy1(@QueryParam("str") String str) {
+	public String stratagy1(@QueryParam("str") String str) {
+		
+		String alert = "";
 		
 		try{
 		
@@ -172,7 +175,6 @@ public class Strat3 {
 		    	            				System.out.println("Price Breakout Strategy exiting");
 		    	            				System.out.println("Profit: "+100*(profit/InitialTransaction)+"%");
 		    	            				System.out.println("Number of transactions: "+Transactions);
-		    	            				return;
 		    	            			}
 		    	            		}
 	            				}
@@ -186,12 +188,23 @@ public class Strat3 {
 			}catch(IOException i){
 				Logger log = Logger.getLogger(this.getClass());
 				log.error("ERROR: " + i.getMessage());
+				alert =   "<div class='alert alert-danger'><strong>Not Running!</strong> The Price Breakout Strategy is no longer running</div>";
 			}catch(ClassNotFoundException c){
 				Logger log = Logger.getLogger(this.getClass());
 				log.error("ERROR: " + c.getMessage());
+				alert =   "<div class='alert alert-danger'><strong>Not Running!</strong> The Price Breakout Strategy is no longer running</div>";
 			}catch(SQLException s){
 				Logger log = Logger.getLogger(this.getClass());
 				log.error("ERROR: " + s.getMessage());
+				alert =   "<div class='alert alert-danger'><strong>Not Running!</strong> The Price Breakout Strategy is no longer running</div>";
+			}catch(Exception e){
+				Logger log = Logger.getLogger(this.getClass());
+				log.error("ERROR: " + e.getMessage());
+				alert =   "<div class='alert alert-danger'><strong>Not Running!</strong> The Two Moving Average is no longer running</div>";
 			}
+			
+		alert =   "<a href='#' data-toggle='tooltip' title='Refer to the portfolio to see if trades were made!'>"
+				+ "<div class='alert alert-warning'><strong>Warning!</strong> The Price Breakout has either finished or an incorrect value was entered!</div></a>";
+			return alert;
 		}
 	}
