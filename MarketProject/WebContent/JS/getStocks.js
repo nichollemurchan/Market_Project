@@ -2,7 +2,7 @@
         var request = myCreateXMLHttpRequest();
         
         
-        
+
 
         function myCreateXMLHttpRequest() {
             try { return new ActiveXObject("Msxml2.XMLHTTP"); } catch (e) { }
@@ -27,21 +27,45 @@
         function performStrategies() {
         	
         	if (document.getElementById("TMAradio").checked == true) {
+        		chAlertTMA();
         		myOnKeyUp1();
         		console.log("TMA: "+ document.getElementById("TMAradio").checked);
         	}
         	if (document.getElementById("EMAradio").checked == true) {
+        		chAlertEMA();
         		Strat2();
         		console.log("EMA: "+ document.getElementById("EMAradio").checked);
         	}
         	if (document.getElementById("PBradio").checked == true) {
+        		chAlertPB();
         		Strat3();
         		console.log("PB: "+ document.getElementById("PBradio").checked);
         	}
         	if (document.getElementById("BBradio").checked == true) {
+        		chAlertBB();
         		Strat4();
         		console.log("BB: "+ document.getElementById("BBradio").checked);
         	}
+        }
+        
+        function chAlertTMA(){
+        	document.getElementById("tMAAlert").innerHTML=
+        		"<div class='alert alert-success'><strong>Currently Running!</strong> The Two Moving Average is running</div>";
+        }
+        
+        function chAlertEMA(){
+        	document.getElementById("eMAAlert").innerHTML=
+        		"<div class='alert alert-success'><strong>Currently Running!</strong> The Exponential Moving Average is running</div>";
+        }
+        
+        function chAlertPB(){
+        	document.getElementById("pBAlert").innerHTML=
+        		"<div class='alert alert-success'><strong>Currently Running!</strong> The Price Breakout Strategy is running</div>";
+        }
+        
+        function chAlertBB(){
+        	document.getElementById("bBAlert").innerHTML=
+        		"<div class='alert alert-success'><strong>Currently Running!</strong> The Bollinger Bands Strategy is running</div>";
         }
         
         function examinePortfolio() {
@@ -163,10 +187,19 @@
                 var url = "rest/Strat1?str=" + textField.value;
 
                 request.open("GET", url, true);
-               // request.onreadystatechange = myHandleCallback1;
+                request.onreadystatechange = tMACallback;
                 request.send(null);
             }
         }
+        
+        function tMACallback() {
+
+            if (request.readyState == 4 && request.status == 200) {
+                var outputField = document.getElementById("tMAAlert");
+                outputField.innerHTML = request.responseText;
+            }
+        }
+        
         
         function Strat2() {
 
@@ -175,8 +208,16 @@
                 var url = "rest/Strat2?str=" + textField.value;
 
                 request.open("GET", url, true);
-               // request.onreadystatechange = myHandleCallback1;
+                request.onreadystatechange = eMACallback;
                 request.send(null);
+            }
+        }
+        
+        function eMACallback() {
+
+            if (request.readyState == 4 && request.status == 200) {
+                var outputField = document.getElementById("eMAAlert");
+                outputField.innerHTML = request.responseText;
             }
         }
         
@@ -187,8 +228,16 @@
                 var url = "rest/Strat3?str=" + textField.value;
 
                 request.open("GET", url, true);
-               // request.onreadystatechange = myHandleCallback1;
+                request.onreadystatechange = pBCallback;
                 request.send(null);
+            }
+        }
+        
+        function pBCallback() {
+
+            if (request.readyState == 4 && request.status == 200) {
+                var outputField = document.getElementById("pBAlert");
+                outputField.innerHTML = request.responseText;
             }
         }
         
@@ -199,8 +248,16 @@
                 var url = "rest/Strat4?str=" + textField.value;
 
                 request.open("GET", url, true);
-               // request.onreadystatechange = myHandleCallback1;
+                request.onreadystatechange = bBCallback;
                 request.send(null);
+            }
+        }
+        
+        function bBCallback() {
+
+            if (request.readyState == 4 && request.status == 200) {
+                var outputField = document.getElementById("bBAlert");
+                outputField.innerHTML = request.responseText;
             }
         }
 

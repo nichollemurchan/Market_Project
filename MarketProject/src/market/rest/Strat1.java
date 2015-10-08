@@ -22,7 +22,9 @@ public class Strat1 {
 
 	@GET
 	@Produces("text/html")
-	public void stratagy1(@QueryParam("str") String str) {
+	public String stratagy1(@QueryParam("str") String str) {
+		
+		String alert = "";
 		
 		try{
 		
@@ -36,6 +38,7 @@ public class Strat1 {
 				+ "BidPrice double, Position nvarchar(6), size int, ProfitPercent double, shares int, DollarProfit double);");
 		in1.executeUpdate();
 		in2.executeUpdate();*/
+		
 		
 		int count = 0;
 		int Transactions = 0;
@@ -174,7 +177,7 @@ public class Strat1 {
 	    	            				System.out.println("Standard Moving Average Strategy exiting");
 	    	            				System.out.println("Profit: "+100*(profit/InitialTransaction)+"%");
 	    	            				System.out.println("Number of transactions: "+Transactions);
-	    	            				return;
+	    	            				
 	    	            			}
 	    	            		}
             				}
@@ -187,12 +190,23 @@ public class Strat1 {
 		}catch(IOException i){
 			Logger log = Logger.getLogger(this.getClass());
 			log.error("ERROR: " + i.getMessage());
+			alert =   "<div class='alert alert-danger'><strong>Not Running!</strong> The Two Moving Average is no longer running</div>";
 		}catch(ClassNotFoundException c){
 			Logger log = Logger.getLogger(this.getClass());
 			log.error("ERROR: " + c.getMessage());
+			alert =   "<div class='alert alert-danger'><strong>Not Running!</strong> The Two Moving Average is no longer running</div>";
 		}catch(SQLException s){
 			Logger log = Logger.getLogger(this.getClass());
 			log.error("ERROR: " + s.getMessage());
+			alert =   "<div class='alert alert-danger'><strong>Not Running!</strong> The Two Moving Average is no longer running</div>";
+		}catch(Exception e){
+			Logger log = Logger.getLogger(this.getClass());
+			log.error("ERROR: " + e.getMessage());
+			alert =   "<div class='alert alert-danger'><strong>Not Running!</strong> The Two Moving Average is no longer running</div>";
 		}
+		
+		alert =   "<a href='#' data-toggle='tooltip' title='Refer to the portfolio to see if trades were made!'>"
+				+ "<div class='alert alert-warning'><strong>Warning!</strong> The Two Moving Average has either finished or an incorrect value was entered!</div></a>";
+		return alert;
 	}
 }

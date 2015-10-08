@@ -85,10 +85,20 @@
 						    	</div>
 						    	<br />
 								<div class="btn-group btn-group-justified">
-								    <a href="#" onclick="performStrategies()" class="btn btn-primary">Start</a>
+								    <a href="#" onclick="performStrategies();" class="btn btn-primary">Start</a>
 								    <a href="#" class="btn btn-primary disabled">Stop</a>
 								    <a href="#" class="btn btn-primary disabled">Continue</a>
 								</div>
+								<br />
+								<div id="tMAAlert">
+									<div class="alert alert-info">
+	    								<strong>No Strategies Running!</strong> There are no strategies currently running, start one!
+	  								</div>
+  								</div>
+								<div id="eMAAlert"></div>
+								<div id="pBAlert"></div>
+								<div id="bBAlert"></div>
+								
   							</form>
 						    
 						    
@@ -207,7 +217,7 @@
 					<input type="text" class="form-control" id="myInputField">
 					</a>
 					<div class="btn-group">
-						<a href="#" onclick="myOnKeyUp()" class="btn btn-primary">Refresh</a>
+						<a href="#" onclick="myOnKeyUp()" class="btn btn-primary">Go!</button>
 					</div>
 				</form>
 				<br />
