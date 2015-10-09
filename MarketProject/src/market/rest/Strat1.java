@@ -15,7 +15,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
-
+import market.dal.DataAccess;
 
 import org.jboss.logging.*;
 
@@ -33,7 +33,8 @@ public class Strat1 {
 		System.out.println("Standard Moving Average Strategy Activated");
 		
 		Class.forName("com.mysql.jdbc.Driver");
-		Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/ad3db", "root", "password");
+		Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/ad3db", "root", "rU1DDbaTWTSI");
+		//Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/ad3db", "root", "password");
 		/*PreparedStatement in1 = cn.prepareStatement(" drop table Trades2");
 		PreparedStatement in2 = cn.prepareStatement("create table Trades2(id int AUTO_INCREMENT PRIMARY KEY, "
 				+ "Author nvarchar(15), DateCreated timestamp, CompanyName nvarchar(10), AskPrice double, "
@@ -55,6 +56,7 @@ public class Strat1 {
 		List<Double> shortList = new ArrayList<Double>();
 		List<Double> longList = new ArrayList<Double>();
 		List<Double> diffList = new ArrayList<Double>();
+		DataAccess dal = new DataAccess();
 
 		while(true){
 			count++;
@@ -84,21 +86,15 @@ public class Strat1 {
             	shortList.add((Double.parseDouble(fields[1])+Double.parseDouble(fields[2]))/2.0); 
             	if(count > 60){
             		shortList.remove(0);
-            		shortTotal = 0;
-            		for(Double d: shortList){
-					shortTotal += d;
-            		}
-            		shortAve = shortTotal/60;
+
+            		shortAve= dal.calcShortAverage(shortList, 60);
             	}
 			
             	longList.add((Double.parseDouble(fields[1])+Double.parseDouble(fields[2]))/2.0);
             	if(count > 200){
             		longList.remove(0);
-            		longTotal = 0;
-            		for(Double d: longList){
-            			longTotal += d;
-            		}
-            		longAve = longTotal/200;
+            		
+            		longAve= dal.calcShortAverage(longList, 200);
             	}
             	
             	if(longAve != 0){
@@ -177,7 +173,7 @@ public class Strat1 {
 	    						if(shares == 0 && InitialTransaction != 0){
 	    	            			if( Math.abs(profit) >= (0.01*InitialTransaction)){
 	    	            				System.out.println("Standard Moving Average Strategy exiting");
-	    	            				System.out.println("Profit: "+100*(profit/InitialTransaction)+"%");
+	    	            				System.out.println("Profit: "+ dal.calcProfitPercent(profit, InitialTransaction) + "%");
 	    	            				System.out.println("Number of transactions: "+Transactions);
 	    	            				
 	    	            			}
@@ -211,4 +207,6 @@ public class Strat1 {
 				+ "<div class='alert alert-warning'><strong>Warning!</strong> The Two Moving Average has either finished or an incorrect value was entered!</div></a>";
 		return alert;
 	}
+	
+
 }

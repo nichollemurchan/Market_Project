@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.List;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -15,6 +16,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 
 import org.jboss.logging.*;
+import market.dal.DataAccess;
 
 @Path("/Strat3")
 public class Strat3 {
@@ -30,7 +32,9 @@ public class Strat3 {
 		System.out.println("Price Breakout Strategy Activated");
 		
 		Class.forName("com.mysql.jdbc.Driver");
-		Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/ad3db", "root", "password");
+		
+		Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/ad3db", "root", "rU1DDbaTWTSI");
+		//Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/ad3db", "root", "password");
 		/*PreparedStatement in1 = cn.prepareStatement(" drop table Trades3");
 		PreparedStatement in2 = cn.prepareStatement("create table Trades1(id int AUTO_INCREMENT PRIMARY KEY, "
 				+ "Author nvarchar(15), DateCreated timestamp, CompanyName nvarchar(10), AskPrice double, "
@@ -50,6 +54,7 @@ public class Strat3 {
 		double InitialTransaction = 0;
 		double MoneyTotal = 0;
 		double profit = 0;
+		DataAccess dal = new DataAccess();
 	
 			while(true){
 				StringBuilder url = 
@@ -173,8 +178,8 @@ public class Strat3 {
 		    						if(shares == 0 && InitialTransaction != 0){
 		    							if( Math.abs(profit)>=(0.01*InitialTransaction)){
 		    	            				System.out.println("Price Breakout Strategy exiting");
-		    	            				System.out.println("Profit: "+100*(profit/InitialTransaction)+"%");
-		    	            				System.out.println("Number of transactions: "+Transactions);
+		    	            				System.out.println("Profit: "+ dal.calcProfitPercent(profit, InitialTransaction) + "%");
+		    	            				System.out.println("Number of transactions: " + Transactions);
 		    	            			}
 		    	            		}
 	            				}
@@ -207,4 +212,5 @@ public class Strat3 {
 				+ "<div class='alert alert-warning'><strong>Warning!</strong> The Price Breakout has either finished or an incorrect value was entered!</div></a>";
 			return alert;
 		}
+	
 	}

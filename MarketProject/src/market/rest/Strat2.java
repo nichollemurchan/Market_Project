@@ -17,6 +17,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 
 import org.jboss.logging.*;
+import market.dal.DataAccess;
 
 @Path("/Strat2")
 public class Strat2 {
@@ -32,7 +33,9 @@ public class Strat2 {
 		System.out.println("Exponential Moving Average Strategy Activated");
 		
 		Class.forName("com.mysql.jdbc.Driver");
-		Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/ad3db", "root", "password");
+		
+		Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/ad3db", "root", "rU1DDbaTWTSI");
+		//Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/ad3db", "root", "password");
 		/*PreparedStatement in1 = cn.prepareStatement(" drop table Trades2");
 		PreparedStatement in2 = cn.prepareStatement("create table Trades2(id int AUTO_INCREMENT PRIMARY KEY, "
 				+ "Author nvarchar(15), DateCreated timestamp, CompanyName nvarchar(10), AskPrice double, "
@@ -56,6 +59,8 @@ public class Strat2 {
 		double longAve = 0;
 		List<Double> shortList = new ArrayList<Double>();
 		List<Double> longList = new ArrayList<Double>();
+		
+		DataAccess dal = new DataAccess();
 	
 		while(true){
 			count++;
@@ -86,21 +91,17 @@ public class Strat2 {
             		shortList.add((Double.parseDouble(fields[1])+Double.parseDouble(fields[2]))/2.0); 
             		if(count > 60){
             			shortList.remove(0);
-            			shortTotal = 0;
-            			for(Double d: shortList){
-            				shortTotal += d;
-            			}
-            			shortAve = shortTotal/60;
+            			
+            			shortAve= dal.calcShortAverage(shortList, 60);
+            			
             		}
 			
             		longList.add((Double.parseDouble(fields[1])+Double.parseDouble(fields[2]))/2.0); 
             		if(count > 200){
             			longList.remove(0);
-            			longTotal = 0;
-            			for(Double d: longList){
-            				longTotal += d;
-            			}
-            			longAve = longTotal/200;
+            			
+            			longAve= dal.calcShortAverage(longList, 200);
+            		
             		}
             	}
             		
@@ -112,8 +113,10 @@ public class Strat2 {
             	}
             	
             	if(SEMA != 0 && LEMA != 0){
-            		SEMA = (((Double.parseDouble(fields[1])+Double.parseDouble(fields[2]))/2.0)-SEMA)*(2.0/(1+5))+SEMA;
-            		LEMA = (((Double.parseDouble(fields[1])+Double.parseDouble(fields[2]))/2.0)-LEMA)*(2.0/(1+30))+LEMA;
+            		double price = (Double.parseDouble(fields[1])+Double.parseDouble(fields[2])/2.0);
+            		
+            		SEMA = dal.calcSEMA(price, SEMA, 5);
+            		LEMA = dal.calcLEMA(price, LEMA, 30);
             	}
             	
             	diffList.add(LEMA-SEMA);
@@ -194,7 +197,7 @@ public class Strat2 {
 	    						if(shares == 0 && InitialTransaction != 0){
 	    	            			if( Math.abs(profit)>=(0.01*InitialTransaction)){
 	    	            				System.out.println("Exponential Moving Average Strategy exiting");
-	    	            				System.out.println("Profit: "+100*(profit/InitialTransaction)+"%");
+	    	            				System.out.println("Profit: " + dal.calcProfitPercent(profit, InitialTransaction) + "%");
 	    	            				System.out.println("Number of transactions: "+Transactions);
 	    	            			}
 	    	            		}
@@ -227,4 +230,6 @@ public class Strat2 {
 				+ "<div class='alert alert-warning'><strong>Warning!</strong> The Exponential Moving Average has either finished or an incorrect value was entered!</div></a>";
 		return alert;
 	}
+	
+
 }

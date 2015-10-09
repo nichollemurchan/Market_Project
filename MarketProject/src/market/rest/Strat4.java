@@ -16,6 +16,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 
 import org.jboss.logging.*;
+import market.dal.DataAccess;
 
 @Path("/Strat4")
 public class Strat4 {
@@ -31,7 +32,9 @@ public class Strat4 {
 			System.out.println("Bollinger Bands Strategy Activated");
 		
 		Class.forName("com.mysql.jdbc.Driver");
-		Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/ad3db", "root", "password");
+		
+		Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/ad3db", "root", "rU1DDbaTWTSI");
+		//Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/ad3db", "root", "password");
 		/*PreparedStatement in1 = cn.prepareStatement(" drop table Trades1");
 		PreparedStatement in2 = cn.prepareStatement("create table Trades1(id int AUTO_INCREMENT PRIMARY KEY, "
 				+ "Author nvarchar(15), DateCreated timestamp, CompanyName nvarchar(10), AskPrice double, "
@@ -51,7 +54,7 @@ public class Strat4 {
 		double profit = 0;
 		List<Double> SDList = new ArrayList<Double>();
 		List<Double> longList = new ArrayList<Double>();
-		
+		DataAccess dal = new DataAccess();
 
 		while(true){
 			count++;
@@ -81,21 +84,18 @@ public class Strat4 {
             	longList.add((Double.parseDouble(fields[1])+Double.parseDouble(fields[2]))/2.0); 
             	if(count > 200){
             		longList.remove(0);
-            		longTotal = 0;
-            		for(Double d: longList){
-            			longTotal += d;
-            		}
-            		longAve = longTotal/200;
+            		
+            		longAve= dal.calcLongAverage(longList, 200);
+            		            		            		
             	}
             	
             	if(count>200){
             		SDList.add(Math.abs(((Double.parseDouble(fields[1])+Double.parseDouble(fields[2]))/2.0)-longAve));
             		if(count > 400){
             			SDList.remove(0);
-            			SDTotal = 0;
-            			for(Double d: SDList){
-            				SDTotal += d;}
-            			SD = SDTotal/200;
+            			
+            			SD = dal.calcMovingStandDev(SDList, 200);
+
             		}
             	}
             		if(shares == 0){
@@ -170,7 +170,7 @@ public class Strat4 {
 	    						if(shares == 0 && InitialTransaction != 0){
 	    	            			if( Math.abs(profit) >= (0.01*InitialTransaction)){
 	    	            				System.out.println("Bollinger Bands Strategy exiting");
-	    	            				System.out.println("Profit: "+100*(profit/InitialTransaction)+"%");
+	    	            				System.out.println("Profit: "+ dal.calcProfitPercent(profit, InitialTransaction) + "%");
 	    	            				System.out.println("Number of transactions: "+Transactions);
 	    	            			}
 	    	            		}
