@@ -14,5 +14,12 @@
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
 	<classpathentry kind="lib" path="C:/Program Files (x86)/MySQL/Connector.J 5.1/mysql-connector-java-5.1.35-bin.jar"/>
+	<classpathentry kind="lib" path="C:/quickfixj/quickfixj-all-1.5.3.jar"/>
+	<classpathentry kind="lib" path="C:/quickfixj/quickfixj-core-1.5.3.jar"/>
+	<classpathentry kind="lib" path="C:/quickfixj/lib/mina-core-1.1.7.jar"/>
+	<classpathentry kind="lib" path="C:/quickfixj/lib/mina-core-1.1.7-sources.jar"/>
+	<classpathentry kind="lib" path="C:/quickfixj/lib/slf4j-api-1.6.3.jar"/>
+	<classpathentry kind="lib" path="C:/quickfixj/lib/slf4j-jdk14-1.6.3.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

@@ -32,21 +32,30 @@
         		console.log("TMA: "+ document.getElementById("TMAradio").checked);
         	}
         	if (document.getElementById("EMAradio").checked == true) {
+        		chAlertGeneral();
         		chAlertEMA();
         		Strat2();
         		console.log("EMA: "+ document.getElementById("EMAradio").checked);
         	}
         	if (document.getElementById("PBradio").checked == true) {
+        		chAlertGeneral();
         		chAlertPB();
         		Strat3();
         		console.log("PB: "+ document.getElementById("PBradio").checked);
         	}
         	if (document.getElementById("BBradio").checked == true) {
+        		chAlertGeneral();
         		chAlertBB();
         		Strat4();
         		console.log("BB: "+ document.getElementById("BBradio").checked);
         	}
         }
+        
+        function chAlertGeneral(){
+        	document.getElementById("tMAAlert").innerHTML=
+        		"<div class='alert alert-info'><strong>Currently Running!</strong> There are now Strategies running!</div>";
+        }
+
         
         function chAlertTMA(){
         	document.getElementById("tMAAlert").innerHTML=

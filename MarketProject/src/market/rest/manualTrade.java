@@ -30,9 +30,9 @@ public class manualTrade {
 			throws SQLException, ClassNotFoundException, IOException {
 
 		Class.forName("com.mysql.jdbc.Driver");
-		Connection cn = DriverManager.getConnection(
-				"jdbc:mysql://localhost/ad3db", "root", "password");
-
+		//Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/ad3db", "root", "password");
+		Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/ad3db", "root", "rU1DDbaTWTSI");
+		
 		StringBuilder url = new StringBuilder(
 				"http://finance.yahoo.com/d/quotes.csv?s=");
 		url.append(str + "+");

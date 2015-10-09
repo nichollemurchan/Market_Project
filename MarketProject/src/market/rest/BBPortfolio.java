@@ -20,7 +20,8 @@ public class BBPortfolio {
 	@Produces("text/html")
 	public String getTrades() throws SQLException {
 		
-		Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/ad3db", "root", "password");
+		Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/ad3db", "root", "rU1DDbaTWTSI");
+		//Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/ad3db", "root", "password");
 		
 		String result = "<table class='table table-striped'><thead><tr><th> Author </th><th> Date </th>"
 				+ "<th> Company Name </th><th> Ask Price </th><th> Bid Price </th><th> Position  </th>"
